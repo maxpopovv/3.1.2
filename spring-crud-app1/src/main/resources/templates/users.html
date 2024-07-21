@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin-top: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type=text], input[type=submit] {
+            padding: 8px;
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        input[type=submit] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>All persons</h1>
+
+    <h2>Таблица с пользователями</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="person : ${persons}">
+            <td th:text="${person.id}">Id</td>
+            <td th:text="${person.name}">Name</td>
+            <td th:text="${person.email}">Email</td>
+            <td>
+
+                <form method="post" th:action="@{/deletePerson}">
+                    <input type="hidden" name="id" th:value="${person.id}">
+                    <input type="submit" value="Delete">
+                </form>
+
+
+                <form method="post" th:action="@{/editPerson}">
+                    <input type="hidden" name="id" th:value="${person.id}">
+                    <input type="submit" value="Update" formaction="editPerson" formmethod="get">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
+    <h2>Add New Person</h2>
+    <form method="post" th:action="@{/addPerson}">
+        <label for="name_add">Name:</label>
+        <input type="text" id="name_add" name="name">
+        <br>
+        <label for="email_add">Email:</label>
+        <input type="text" id="email_add" name="email">
+        <br>
+        <input type="submit" value="Add Person">
+    </form>
+</div>
+</body>
+</html>
